@@ -2,19 +2,15 @@ package com.example.demo.service;
 
 import liquibase.Contexts;
 import liquibase.Liquibase;
-import liquibase.changelog.DatabaseChangeLog;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.bridge.MessageUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -22,6 +18,7 @@ import java.sql.DriverManager;
 @Slf4j
 public class LiquibaseRollbackService {
 
+    private static final Logger log = LoggerFactory.getLogger(LiquibaseRollbackService.class);
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
@@ -43,8 +40,7 @@ public class LiquibaseRollbackService {
 
             liquibase.rollback(tagName, new Contexts());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to rollback to tag: " + tagName, e);
+            log.error("Failed to rollback to tag: {}", tagName);
         }
     }
 }
