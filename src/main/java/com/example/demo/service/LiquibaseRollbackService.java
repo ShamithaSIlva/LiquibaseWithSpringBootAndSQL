@@ -42,7 +42,6 @@ public class LiquibaseRollbackService {
             Liquibase liquibase = new Liquibase("db/changelog-master.yaml", new ClassLoaderResourceAccessor(classLoader), database);
 
             liquibase.rollback(tagName, new Contexts());
-            //connection.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to rollback to tag: " + tagName, e);
