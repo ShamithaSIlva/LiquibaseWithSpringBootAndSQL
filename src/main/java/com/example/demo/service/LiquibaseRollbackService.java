@@ -28,6 +28,9 @@ public class LiquibaseRollbackService {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
+    @Value("${rollback.tag}")
+    private String rollbackTagName;
+
 
     public void rollbackToTag(String tagName) {
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword)) {
@@ -38,7 +41,10 @@ public class LiquibaseRollbackService {
 
             Liquibase liquibase = new Liquibase("db/changelog-master.yaml", new ClassLoaderResourceAccessor(classLoader), database);
 
-            liquibase.rollback(tagName, new Contexts());
+            if(!rollbackTagName.isEmpty())
+            {
+                liquibase.rollback(rollbackTagName, new Contexts());
+            }
         } catch (Exception e) {
             log.error("Failed to rollback to tag: {}", tagName);
         }
