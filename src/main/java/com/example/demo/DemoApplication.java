@@ -17,8 +17,7 @@ public class DemoApplication {
 		LiquibaseRollbackService rollbackService = context.getBean(LiquibaseRollbackService.class);
 
 		// Perform the rollback
-		String tagName = "100.01"; // Replace with the desired tag
-		rollbackService.rollbackToTag(tagName);
+		rollbackService.rollbackToTag();
 
 		// Close the context if needed (optional)
 		context.close();

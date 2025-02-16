@@ -32,7 +32,7 @@ public class LiquibaseRollbackService {
     private String rollbackTagName;
 
 
-    public void rollbackToTag(String tagName) {
+    public void rollbackToTag() {
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword)) {
             Database database = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new liquibase.database.jvm.JdbcConnection(connection));
@@ -46,7 +46,7 @@ public class LiquibaseRollbackService {
                 liquibase.rollback(rollbackTagName, new Contexts());
             }
         } catch (Exception e) {
-            log.error("Failed to rollback to tag: {}", tagName);
+            log.error("Failed to rollback to tag: {}", rollbackTagName);
         }
     }
 }
